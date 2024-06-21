@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// web.php
+Route::view('/', 'employee.form');
+Route::post('/submit', [EmployeeController::class, 'store']);

@@ -65,6 +65,12 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'invalid_data' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/invalid_data.log'),
+            'level' => 'warning',
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
