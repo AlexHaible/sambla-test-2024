@@ -61,6 +61,7 @@ class ImportJSON extends Command
         $this->info('Data imported successfully!');
     }
 
+    //Normally I'd put the following functions into App\Actions\{functionName}, but for the sake of ease of reading, I'm keeping them here.
     private function convertToString($value)
     {
         return is_numeric($value) ? (string)$value : null;

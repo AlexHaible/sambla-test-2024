@@ -9,7 +9,7 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-lg">
         <h2 class="text-2xl font-bold mb-6">Simple Web Form</h2>
-        <form action="/submit" method="post">
+        <form id="employeeForm">
             @csrf
             <div class="mb-4">
                 <label for="email" class="block text-gray-700">Email:</label>
@@ -27,13 +27,13 @@
             </div>
 
             <div class="mb-4">
-                <label for="firstname" class="block text-gray-700">First Name:</label>
-                <input type="text" id="firstname" name="firstname" class="mt-1 p-2 w-full border border-gray-300 rounded" required>
+                <label for="firstName" class="block text-gray-700">First Name:</label>
+                <input type="text" id="firstName" name="firstName" class="mt-1 p-2 w-full border border-gray-300 rounded" required>
             </div>
 
             <div class="mb-4">
-                <label for="lastname" class="block text-gray-700">Last Name:</label>
-                <input type="text" id="lastname" name="lastname" class="mt-1 p-2 w-full border border-gray-300 rounded" required>
+                <label for="lastName" class="block text-gray-700">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" class="mt-1 p-2 w-full border border-gray-300 rounded" required>
             </div>
 
             <div class="mb-4">
@@ -47,18 +47,18 @@
             </div>
 
             <div class="mb-4">
-                <label for="employmentfrom" class="block text-gray-700">Employment From:</label>
-                <input type="date" id="employmentfrom" name="employmentfrom" class="mt-1 p-2 w-full border border-gray-300 rounded" required>
+                <label for="employmentFrom" class="block text-gray-700">Employment From:</label>
+                <input type="date" id="employmentFrom" name="employmentFrom" class="mt-1 p-2 w-full border border-gray-300 rounded" required>
             </div>
 
             <div class="mb-4">
-                <label for="employmentto" class="block text-gray-700">Employment To:</label>
-                <input type="date" id="employmentto" name="employmentto" class="mt-1 p-2 w-full border border-gray-300 rounded">
+                <label for="employmentTo" class="block text-gray-700">Employment To:</label>
+                <input type="date" id="employmentTo" name="employmentTo" class="mt-1 p-2 w-full border border-gray-300 rounded">
             </div>
 
             <div class="mb-4 flex items-center">
-                <input type="checkbox" id="currentlyworking" name="currentlyworking" class="mr-2">
-                <label for="currentlyworking" class="text-gray-700">Currently Working Here</label>
+                <input type="checkbox" id="currentlyWorking" name="currentlyWorking" class="mr-2">
+                <label for="currentlyWorking" class="text-gray-700">Currently Working Here</label>
             </div>
 
             <div>
@@ -66,5 +66,42 @@
             </div>
         </form>
     </div>
+    <script>
+        document.getElementById('employeeForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const formObject = {};
+            formData.forEach((value, key) => formObject[key] = value);
+
+            if (formObject.currentlyWorking) {
+                formObject.currentlyWorking = true;
+            } else {
+                formObject.currentlyWorking = false;
+            }
+
+            try {
+                const response = await fetch('/api/employees', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify(formObject)
+                });
+
+                if (response.ok) {
+                    alert('Employee added successfully');
+                    document.location.href = '/';
+                } else {
+                    const errorData = await response.json();
+                    alert('Error: ' + errorData.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred');
+            }
+        });
+    </script>
 </body>
 </html>

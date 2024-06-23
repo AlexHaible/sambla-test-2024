@@ -18,13 +18,13 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees',
             'ssn' => 'required|string',
             'phone' => 'required|string',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
             'dob' => 'required|date',
             'salary' => 'required|numeric',
-            'employmentfrom' => 'required|date',
-            'employmentto' => 'nullable|date',
-            'currentlyworking' => 'required|boolean'
+            'employmentFrom' => 'required|date',
+            'employmentTo' => 'nullable|date',
+            'currentlyWorking' => 'required|boolean'
         ]);
 
         $employee = Employee::create($validated);
